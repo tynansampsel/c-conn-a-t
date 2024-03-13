@@ -15,19 +15,14 @@ int main(int argumentsCount, char *arguements[]){
     //argument 2 is message
     
     //prepare address information
-    struct addrinfo adinf, *linkedListP, *adinfP;
-    char service;
-    adinf->ai_socktype = SOCK_DGRAM
+    struct addrinfo hints, *servinfo, *p;
+    hints.ai_socktype = SOCK_DGRAM;
 
-    int a = getaddrinfo(arguements[1], "4950", adinf, &linkedListP)
+    int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
     if(a == 0){
-        printf("got something!!!\n")
-
-
-
+        printf("got something!!!\n");
     } else {
-        printf("womp womp\n")
-
+        printf("womp womp\n");
     }
 
     //get addressinfo
