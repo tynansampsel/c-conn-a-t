@@ -16,6 +16,9 @@ int main(int argumentsCount, char *arguements[]){
     
     //prepare address information
     struct addrinfo hints, *servinfo, *p;
+    memset(&hints, 0, sizeof hints); // Initialize hints
+    hints.ai_family = AF_INET; // IPv4
+
     hints.ai_socktype = SOCK_DGRAM;
 
     int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
