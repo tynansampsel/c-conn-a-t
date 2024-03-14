@@ -30,7 +30,7 @@ int main(int argumentsCount, char *arguements[]){
         printf("got something!!!\n");
 
         for(p = servinfo; p!= NULL; p = p->ai_next){
-            s = socket(p->ai_family, p->ai_socktype,p->ai_protocol)
+            s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
 
             if(s > -1){
                 break;
@@ -45,22 +45,10 @@ int main(int argumentsCount, char *arguements[]){
     }
 
 
+    freeadderinfo(servinfo)
+        printf("Sent!\n");
 
-if (p == NULL) {
-		fprintf(stderr, "talker: failed to create socket\n");
-		return 2;
-	}
-
-	if ((numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0,
-			 p->ai_addr, p->ai_addrlen)) == -1) {
-		perror("talker: sendto");
-		exit(1);
-	}
-
-	freeaddrinfo(servinfo);
-
-	printf("talker: sent %d bytes to %s\n", numbytes, arguements[1]);
-	close(s);
+    close(s)
 
 
     //get addressinfo
