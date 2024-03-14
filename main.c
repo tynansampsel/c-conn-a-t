@@ -20,9 +20,9 @@ int main(int argumentsCount, char *arguements[]){
 	int numbytes;
 
     struct addrinfo hints, *servinfo, *p;
+
     memset(&hints, 0, sizeof hints); // Initialize hints
     hints.ai_family = AF_INET; // IPv4
-
     hints.ai_socktype = SOCK_DGRAM;
 
     int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
@@ -44,11 +44,13 @@ int main(int argumentsCount, char *arguements[]){
         printf("womp womp\n");
     }
 
+    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen)
 
-    freeadderinfo(servinfo)
-        printf("Sent!\n");
 
-    close(s)
+    freeadderinfo(servinfo);
+    printf("Sent!\n");
+
+    close(s);
 
 
     //get addressinfo
