@@ -51,7 +51,7 @@ if (p == NULL) {
 		return 2;
 	}
 
-	if ((numbytes = sendto(s, argv[2], strlen(argv[2]), 0,
+	if ((numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0,
 			 p->ai_addr, p->ai_addrlen)) == -1) {
 		perror("talker: sendto");
 		exit(1);
@@ -59,7 +59,7 @@ if (p == NULL) {
 
 	freeaddrinfo(servinfo);
 
-	printf("talker: sent %d bytes to %s\n", numbytes, argv[1]);
+	printf("talker: sent %d bytes to %s\n", numbytes, arguements[1]);
 	close(s);
 
 
