@@ -22,32 +22,29 @@ int main(int argumentsCount, char *arguements[]){
     struct addrinfo hints, *servinfo, *p;
 
     memset(&hints, 0, sizeof hints); // Initialize hints
-    hints.ai_family = AF_INET; // IPv4
-    hints.ai_socktype = SOCK_DGRAM;
+    //hints.ai_family = AF_INET; // IPv4
+    //hints.ai_socktype = SOCK_DGRAM;
 
     int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
     if(a == 0){
         printf("got something!!!\n");
 
-        for(p = servinfo; p!= NULL; p = p->ai_next){
+        for(p = servinfo; p != NULL; p = p->ai_next){
             s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
 
             if(s > -1){
                 break;
             }
             printf("nah\n");
-            
         }
-
-
     } else {
         printf("womp womp\n");
     }
 
-    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen)
+    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
 
 
-    freeadderinfo(servinfo);
+    freeaddrinfo(servinfo);
     printf("Sent!\n");
 
     close(s);
