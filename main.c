@@ -16,70 +16,23 @@ void *get_in_addr(struct sockaddr *sa)
 
 int main(int argumentsCount, char *arguements[]){
     
-    //argument 1 is destination IP (ipv4)
-    //argument 2 is message
-    
-    //prepare address information
-
-	int sockfd;
-	int numbytes;
-
-    struct addrinfo hints, *servinfo, *p;
-
-    memset(&hints, 0, sizeof hints); // Initialize hints
-    hints.ai_family = AF_INET; // IPv4
-    hints.ai_socktype = SOCK_DGRAM;
-
-    int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
-    if(a == 0){
-        printf("got something!!!\n");
-
-        for(p = servinfo; p != NULL; p = p->ai_next){
-            sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
-            if(sockfd != -1){
-                break;
-                printf("found socket\n");
-            }
-        }
-    } else {
-        printf("womp womp\n");
-    }
-
-
-    if (p == NULL) {
-        fprintf(stderr, "Failed to create socket\n");
-        return 1;
-    }
-
-    numbytes = sendto(sockfd, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
-    if (numbytes == -1) {
-        printf("n\n");
-
-		perror("talker: sendto");
-		exit(1);
-	} else {
-        printf("y\n");
-
-    }
-
-    printf("a4\n");
-
-
-    //freeaddrinfo(servinfo);
-    printf("Sent!\n");
+    sendMessage(arguements[1], arguements[1]);
 
     //close(sockfd);
 
     //int sockfd;
-	int numbytes2;
+    /*
+    
+    
+    int numbytes2;
 
 	struct sockaddr_storage their_addr;
 	char buf[100];
 	socklen_t addr_len;
 	char s[INET6_ADDRSTRLEN];
 
-    hints.ai_socktype = SOCK_DGRAM;
-    hints.ai_flags = AI_PASSIVE;
+    //hints.ai_socktype = SOCK_DGRAM;
+    //hints.ai_flags = AI_PASSIVE;
 
 
 
@@ -101,6 +54,59 @@ int main(int argumentsCount, char *arguements[]){
 
     close(sockfd);
 
+    
+    
+    */
+	
 
     return 0;
+}
+
+
+int sendMessage(char ip[], char message[]){
+    int sockfd;
+	int numbytes;
+
+    struct addrinfo hints, *servinfo, *p;
+
+    memset(&hints, 0, sizeof hints); // Initialize hints
+    hints.ai_family = AF_INET; // IPv4
+    hints.ai_socktype = SOCK_DGRAM;
+
+    int a = getaddrinfo(ip, "4950", &hints, &servinfo);
+    if(a == 0){
+        printf("got something!!!\n");
+
+        for(p = servinfo; p != NULL; p = p->ai_next){
+            sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
+            if(sockfd != -1){
+                break;
+                printf("found socket\n");
+            }
+        }
+    } else {
+        printf("womp womp\n");
+    }
+
+
+    if (p == NULL) {
+        fprintf(stderr, "Failed to create socket\n");
+        return 1;
+    }
+
+    numbytes = sendto(sockfd, message, strlen(message), 0, p->ai_addr, p->ai_addrlen);
+    if (numbytes == -1) {
+        printf("n\n");
+
+		perror("talker: sendto");
+		exit(1);
+	} else {
+        printf("y\n");
+
+    }
+
+
+    freeaddrinfo(servinfo);
+    close(sockfd);
+    printf("Sent!\n");
 }
