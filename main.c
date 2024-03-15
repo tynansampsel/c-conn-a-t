@@ -9,6 +9,11 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+void *get_in_addr(struct sockaddr *sa)
+{
+	return &(((struct sockaddr_in*)sa)->sin_addr);
+}
+
 int main(int argumentsCount, char *arguements[]){
     
     //argument 1 is destination IP (ipv4)
@@ -66,7 +71,6 @@ int main(int argumentsCount, char *arguements[]){
     //close(sockfd);
 
     //int sockfd;
-	int rv;
 	int numbytes2;
 
 	struct sockaddr_storage their_addr;
