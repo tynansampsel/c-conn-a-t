@@ -16,7 +16,7 @@ void *get_in_addr(struct sockaddr *sa)
 
 int main(int argumentsCount, char *arguements[]){
     
-    sendMessage(arguements[1], arguements[1]);
+    sendMessage(arguements[1], arguements[2]);
 
     char requestIp[INET6_ADDRSTRLEN];
     waitForMessage(&requestIp);
