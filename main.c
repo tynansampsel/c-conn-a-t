@@ -51,9 +51,14 @@ int main(int argumentsCount, char *arguements[]){
 
     numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
     if (numbytes == -1) {
+        printf("n\n");
+
 		perror("talker: sendto");
 		exit(1);
-	}
+	} else {
+        printf("y\n");
+
+    }
 
     printf("a4\n");
 
