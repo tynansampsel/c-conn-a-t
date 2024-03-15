@@ -9,13 +9,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-
-void *get_in_addr(struct sockaddr *sa)
-{
-	return &(((struct sockaddr_in*)sa)->sin_addr);
-}
-
-
 int main(int argumentsCount, char *arguements[]){
     
     //argument 1 is destination IP (ipv4)
@@ -23,7 +16,7 @@ int main(int argumentsCount, char *arguements[]){
     
     //prepare address information
 
-	int sockfd;
+	int s;
 	int numbytes;
 
     struct addrinfo hints, *servinfo, *p;
@@ -37,9 +30,9 @@ int main(int argumentsCount, char *arguements[]){
         printf("got something!!!\n");
 
         for(p = servinfo; p != NULL; p = p->ai_next){
-            sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
+            s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
 
-            if(sockfd > -1){
+            if(s > -1){
                 break;
             }
             printf("nah\n");
@@ -48,49 +41,16 @@ int main(int argumentsCount, char *arguements[]){
         printf("womp womp\n");
     }
 
-    numbytes = sendto(sockfd, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
+    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
 
 
     freeaddrinfo(servinfo);
     printf("Sent!\n");
 
-    close(sockfd);
+    close(s);
 
 
-    //int sockfd;
-	//int rv;
-	//int numbytes;
-
-	// struct sockaddr_storage their_addr;
-	// char buf[100];
-	// socklen_t addr_len;
-	// char s[INET6_ADDRSTRLEN];
-
-    // hints.ai_socktype = SOCK_DGRAM;
-    // hints.ai_flags = AI_PASSIVE;
-
-
-    // //int r = getaddrinfo(NULL, "4950", &hints, &servinfo);
-    // int b = bind(sockfd, p->ai_addr, p->ai_addrlen);
-          
-
-    // freeaddrinfo(servinfo);
-
-    // addr_len = sizeof their_addr;
-    // numbytes = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
-
-    // printf("listener: got packet from %s\n",
-    //         inet_ntop(their_addr.ss_family,
-    //             get_in_addr((struct sockaddr *)&their_addr),
-    //             s, sizeof s));
-    // printf("listener: packet is %d bytes long\n", numbytes);
-    // buf[numbytes] = '\0';
-    // printf("listener: packet contains \"%s\"\n", buf);
-
-    // close(sockfd);
-    
     //get addressinfo
 
     return 0;
 }
-
