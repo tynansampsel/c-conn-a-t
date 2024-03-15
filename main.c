@@ -41,7 +41,7 @@ int main(int argumentsCount, char *arguements[]){
         printf("womp womp\n");
     }
 
-    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
+    numbytes = sendto(sockfd, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
 
 
     //freeaddrinfo(servinfo);
