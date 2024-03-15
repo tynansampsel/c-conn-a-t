@@ -16,7 +16,7 @@ int main(int argumentsCount, char *arguements[]){
     
     //prepare address information
 
-	int s;
+	int sockfd;
 	int numbytes;
 
     struct addrinfo hints, *servinfo, *p;
@@ -30,8 +30,8 @@ int main(int argumentsCount, char *arguements[]){
         printf("got something!!!\n");
 
         for(p = servinfo; p != NULL; p = p->ai_next){
-            s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
-            if(s != -1){
+            sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
+            if(sockfd != -1){
                 break;
                 printf("found socket\n");
             }
@@ -46,7 +46,7 @@ int main(int argumentsCount, char *arguements[]){
         return 1;
     }
 
-    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
+    numbytes = sendto(sockfd, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
     if (numbytes == -1) {
         printf("n\n");
 
@@ -60,13 +60,43 @@ int main(int argumentsCount, char *arguements[]){
     printf("a4\n");
 
 
-    freeaddrinfo(servinfo);
+    //freeaddrinfo(servinfo);
     printf("Sent!\n");
 
-    close(s);
+    //close(sockfd);
+
+    //int sockfd;
+	int rv;
+	int numbytes2;
+
+	struct sockaddr_storage their_addr;
+	char buf[100];
+	socklen_t addr_len;
+	char s[INET6_ADDRSTRLEN];
+
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags = AI_PASSIVE;
 
 
-    //get addressinfo
+
+    int b = bind(sockfd, p->ai_addr, p->ai_addrlen);
+          
+
+    freeaddrinfo(servinfo);
+
+    addr_len = sizeof their_addr;
+    numbytes2 = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
+
+    printf("listener: got packet from %s\n",
+             inet_ntop(their_addr.ss_family,
+                 get_in_addr((struct sockaddr *)&their_addr),
+                s, sizeof s));
+    printf("listener: packet is %d bytes long\n", numbytes2);
+    buf[numbytes2] = '\0';
+    printf("listener: packet contains \"%s\"\n", buf);
+
+    close(sockfd);
+
 
     return 0;
 }
