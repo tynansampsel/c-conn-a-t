@@ -34,14 +34,20 @@ int main(int argumentsCount, char *arguements[]){
 
             if(s > -1){
                 break;
+                printf("a1\n");
+
             }
             printf("nah\n");
         }
+        printf("a2\n");
+
     } else {
         printf("womp womp\n");
     }
+    printf("a3\n");
 
     numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
+    printf("a4\n");
 
 
     freeaddrinfo(servinfo);
