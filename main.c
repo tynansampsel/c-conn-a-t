@@ -9,53 +9,64 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-int main(int argumentsCount, char *arguments[]) {
-    if (argumentsCount != 3) {
-        fprintf(stderr, "Usage: %s <destination IP> <message>\n", arguments[0]);
-        return 1;
-    }
+int main(int argumentsCount, char *arguements[]){
+    
+    //argument 1 is destination IP (ipv4)
+    //argument 2 is message
+    
+    //prepare address information
 
-    int s;
-    int numbytes;
+	int s;
+	int numbytes;
 
     struct addrinfo hints, *servinfo, *p;
 
     memset(&hints, 0, sizeof hints); // Initialize hints
-    hints.ai_family = AF_UNSPEC; // Allow IPv4 or IPv6
-    hints.ai_socktype = SOCK_DGRAM; // Datagram socket
+    hints.ai_family = AF_INET; // IPv4
+    hints.ai_socktype = SOCK_DGRAM;
 
-    int status = getaddrinfo(arguments[1], "4950", &hints, &servinfo);
-    if (status != 0) {
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
-        return 1;
-    }
+    int a = getaddrinfo(arguements[1], "4950", &hints, &servinfo);
+    if(a == 0){
+        printf("got something!!!\n");
 
-    // Iterate through all the results and make a socket
-    for (p = servinfo; p != NULL; p = p->ai_next) {
-        s = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-        if (s == -1) {
-            perror("socket");
-            continue;
+        for(p = servinfo; p != NULL; p = p->ai_next){
+            s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
+            if(s != -1){
+                break;
+                printf("found socket\n");
+            }
         }
-        break; // If we successfully create a socket, exit the loop
+    } else {
+        printf("womp womp\n");
     }
+
 
     if (p == NULL) {
         fprintf(stderr, "Failed to create socket\n");
         return 1;
     }
 
-    // Send the message
-    numbytes = sendto(s, arguments[2], strlen(arguments[2]), 0, p->ai_addr, p->ai_addrlen);
+    numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
     if (numbytes == -1) {
-        perror("sendto");
-        return 1;
+        printf("n\n");
+
+		perror("talker: sendto");
+		exit(1);
+	} else {
+        printf("y\n");
+
     }
 
-    printf("Sent %d bytes to %s\n", numbytes, arguments[1]);
+    printf("a4\n");
+
 
     freeaddrinfo(servinfo);
+    printf("Sent!\n");
+
     close(s);
+
+
+    //get addressinfo
 
     return 0;
 }
