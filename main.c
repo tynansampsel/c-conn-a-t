@@ -49,6 +49,12 @@ int main(int argumentsCount, char *arguements[]){
     }
     printf("a3\n");
 
+
+    if (p == NULL) {
+        fprintf(stderr, "Failed to create socket\n");
+        return 1;
+    }
+
     numbytes = sendto(s, arguements[2], strlen(arguements[2]), 0, p->ai_addr, p->ai_addrlen);
     if (numbytes == -1) {
         printf("n\n");
