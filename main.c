@@ -30,7 +30,10 @@ int main(int argumentsCount, char *arguements[]){
         printf("got something!!!\n");
 
         for(p = servinfo; p != NULL; p = p->ai_next){
+            printf("a-\n");
+
             s = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
+            printf("a0\n");
 
             if(s > -1){
                 break;
