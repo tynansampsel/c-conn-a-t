@@ -54,7 +54,7 @@ int main(int argumentsCount, char *arguements[]){
     freeaddrinfo(servinfo);
     printf("Sent!\n");
 
-    close(s);
+    close(sockfd);
 
 
     //int sockfd;
