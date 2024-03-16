@@ -26,6 +26,7 @@ int main(int argumentsCount, char *arguements[]){
 
 int waitForMessage(char requestIp[]){
     printf("waiting for response...\n");
+	int numbytes;
 
     int sockfd;
 	struct addrinfo hints, *servinfo, *p;
