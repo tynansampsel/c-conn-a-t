@@ -54,6 +54,9 @@ int waitForMessage(char requestIp[]){
 
         numbytes = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
 
+        printf("they responded!\n");
+        printf("they said %s\n", buf);
+
         /*
         printf("listener: got packet from %s\n",
                 inet_ntop(their_addr.ss_family,
