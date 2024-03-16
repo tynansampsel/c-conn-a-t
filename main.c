@@ -29,17 +29,17 @@ int waitForMessage(char requestIp[]){
 	int numbytes;
 
     int sockfd;
-	struct addrinfo hints, *servinfo, *p;
+	struct addrinfo addrinfoPrefs, *servinfo, *p;
 
 	struct sockaddr_storage their_addr;
 	socklen_t addr_len;
-	char buf[100];
+	char recievedInfo[100];
 
-    memset(&hints, 0, sizeof hints);
-    hints.ai_socktype = SOCK_DGRAM;
-    hints.ai_flags = AI_PASSIVE;
+    memset(&addrinfoPrefs, 0, sizeof addrinfoPrefs);
+    addrinfoPrefs.ai_socktype = SOCK_DGRAM;
+    addrinfoPrefs.ai_flags = AI_PASSIVE;
 
-    int getaddrinfoResult = getaddrinfo(NULL, "4950", &hints, &servinfo);
+    int getaddrinfoResult = getaddrinfo(NULL, "4950", &addrinfoPrefs, &servinfo);
     if(getaddrinfoResult != 0){
         printf("Could not get address information!\n");
         return 1;
@@ -47,9 +47,8 @@ int waitForMessage(char requestIp[]){
     
     for(p = servinfo; p != NULL; p = p->ai_next){
         sockfd = socket(p->ai_family, p->ai_socktype,p->ai_protocol);
-
         if((sockfd) > -1){
-            int b = bind(sockfd, p->ai_addr, p->ai_addrlen);
+            bind(sockfd, p->ai_addr, p->ai_addrlen);
             break;
         }
     }
@@ -60,14 +59,14 @@ int waitForMessage(char requestIp[]){
 
     addr_len = sizeof their_addr;
 
-    int recvfromResult = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
+    int recvfromResult = recvfrom(sockfd, recievedInfo, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
     if (recvfromResult == -1) {
 		printf("Could not get socket information!\n");
         return 1;
 	}
 
     printf("they responded!\n");
-    printf("they said %s\n", buf);
+    printf("they said %s\n", recievedInfo);
 
     freeaddrinfo(servinfo);
     close(sockfd);
@@ -77,13 +76,13 @@ int waitForMessage(char requestIp[]){
 
 int sendMessage(char ip[], char message[]){
     int sockfd;
-    struct addrinfo hints, *servinfo, *p;
+    struct addrinfo addrinfoPrefs, *servinfo, *p;
 
-    memset(&hints, 0, sizeof hints); // Initialize hints
-    hints.ai_family = AF_INET; // IPv4
-    hints.ai_socktype = SOCK_DGRAM;
+    memset(&addrinfoPrefs, 0, sizeof addrinfoPrefs);
+    addrinfoPrefs.ai_family = AF_INET;
+    addrinfoPrefs.ai_socktype = SOCK_DGRAM;
 
-    int getaddrinfoResult = getaddrinfo(ip, "4950", &hints, &servinfo);
+    int getaddrinfoResult = getaddrinfo(ip, "4950", &addrinfoPrefs, &servinfo);
     if(getaddrinfoResult != 0){
         printf("Could not get address information!\n");
         return 1;
