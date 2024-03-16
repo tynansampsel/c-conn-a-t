@@ -32,6 +32,7 @@ int waitForMessage(char requestIp[]){
 
 	struct sockaddr_storage their_addr;
 	socklen_t addr_len;
+	char buf[100];
 
     memset(&hints, 0, sizeof hints);
     hints.ai_socktype = SOCK_DGRAM;
