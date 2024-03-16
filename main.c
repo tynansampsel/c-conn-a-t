@@ -60,17 +60,14 @@ int waitForMessage(char requestIp[]){
 
     addr_len = sizeof their_addr;
 
-    
     int recvfromResult = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
     if (recvfromResult == -1) {
 		printf("Could not get socket information!\n");
         return 1;
 	}
-    
+
     printf("they responded!\n");
     printf("they said %s\n", buf);
-
-    inet_ntop(their_addr.ss_family, get_in_addr((struct sockaddr *)&their_addr), requestIp, sizeof requestIp);
 
     freeaddrinfo(servinfo);
     close(sockfd);
