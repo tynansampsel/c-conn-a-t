@@ -50,6 +50,18 @@ int waitForMessage(char requestIp[]){
         }
         addr_len = sizeof their_addr;
 
+        numbytes = recvfrom(sockfd, buf, 99 , 0, (struct sockaddr *)&their_addr, &addr_len);
+
+        /*
+        printf("listener: got packet from %s\n",
+                inet_ntop(their_addr.ss_family,
+                    get_in_addr((struct sockaddr *)&their_addr),
+                    s, sizeof s));
+        printf("listener: packet is %d bytes long\n", numbytes);
+        buf[numbytes] = '\0';
+        printf("listener: packet contains \"%s\"\n", buf);
+        */
+
         inet_ntop(their_addr.ss_family, get_in_addr((struct sockaddr *)&their_addr), requestIp, sizeof requestIp);
 
         freeaddrinfo(servinfo);
